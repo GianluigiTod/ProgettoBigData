@@ -10,7 +10,9 @@ def main():
     df = spark.read.option("header", True).csv(dataset_path)
 
     df = preprocessing(df, "nome")
-    """
+
+    df.show()
+    '''
     engagement, tweet_count = top_users(df)
     print("\nTop utenti per numero di tweet:")
     tweet_count.show(10, truncate=False)
@@ -18,6 +20,7 @@ def main():
     print("\nTop utenti per like totali:")
     engagement.show(10, truncate=False)
 
+    df = preprocessing(df, "hashtags")
 
     hashtag_count, hashtag_engagement = top_hashtags(df)
     print("\nTop hashtag per numero di tweet:")
@@ -25,8 +28,7 @@ def main():
 
     print("\nTop hashtag per like medi:")
     hashtag_engagement.show(10, truncate=False)
-    """
-    df.show()
+    '''
 
 
 if __name__ == "__main__":
