@@ -1,19 +1,27 @@
-''' Ancora da controllare
-
 from sparknlp.base import DocumentAssembler
 from sparknlp.annotator import Tokenizer, BertEmbeddings, ClassifierDLModel
 from sparknlp.pretrained import PretrainedPipeline
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, udf
 from pyspark.sql.types import BooleanType, StringType
+from pyspark.ml import Pipeline
+import sparknlp
 
 # ----------------------------
 # 1. Crea SparkSession
 # ----------------------------
+'''
 spark = SparkSession.builder \
-    .appName("PoliticalTweetClassifier") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:5.0.0") \
+    .appName("TwitterClassifier") \
+    .master("local[*]") \
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.0.0") \
+    .config("spark.driver.memory","4G") \
+    .config("spark.executor.memory","4G") \
     .getOrCreate()
+    '''
+
+# Poi avvia Spark NLP senza argomenti
+sparknlp.start()
 
 # ----------------------------
 # 2. Carica il modello preaddestrato DistilBERT per bias politico
@@ -76,4 +84,3 @@ if __name__ == "__main__":
     
     for text in test_texts:
         print(f"Text: {text}\nIs political? {is_political(text)}\n")
-'''
